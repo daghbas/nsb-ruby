@@ -1,46 +1,15 @@
-(() => {
-  const header = document.querySelector('[data-header]');
-  const menuButton = document.querySelector('[data-menu-button]');
-  const menu = document.querySelector('[data-menu]');
-  const year = document.querySelector('[data-year]');
-
-  if (year) year.textContent = new Date().getFullYear();
-
-  const syncHeader = () => header?.classList.toggle('is-scrolled', window.scrollY > 18);
-  syncHeader();
-  window.addEventListener('scroll', syncHeader, { passive: true });
-
-  const closeMenu = () => {
-    if (!menuButton || !menu) return;
-    menuButton.setAttribute('aria-expanded', 'false');
-    menu.classList.remove('is-open');
-    document.body.classList.remove('menu-open');
-  };
-
-  menuButton?.addEventListener('click', () => {
-    const open = menuButton.getAttribute('aria-expanded') === 'true';
-    menuButton.setAttribute('aria-expanded', String(!open));
-    menu?.classList.toggle('is-open', !open);
-    document.body.classList.toggle('menu-open', !open);
-  });
-
-  menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
-  window.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') closeMenu();
-  });
-
-  const revealItems = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -30px' });
-    revealItems.forEach((item) => observer.observe(item));
-  } else {
-    revealItems.forEach((item) => item.classList.add('is-visible'));
-  }
-})();
+const B='https://nsb-ruby.vercel.app';
+const services=[['التطوير العقاري','نبني مشاريع عقارية متعددة بلغة عصرية وفخامة مدروسة.',1],['التسويق العقاري','نموذج تسويقي استثنائي يوظف العلاقات والمعرفة بالسوق.',5],['إدارة الممتلكات والمرافق','حلول إدارة تضع تطلعات الشركاء وتجربة المستفيد في الصميم.',3],['البنية التحتية والمقاولات','تنفيذ يجمع الحلول العملية وجودة الإنجاز.',4],['استثمار الأراضي','تحويل الفرص إلى أصول ذات قيمة وعوائد مستدامة.',5]];
+const projects=[['فندق العزيزية','رحابة المكان بالقرب من المسجد الحرام',1,'ضيافة'],['فندق شموخ المدينة','بجوار المسجد النبوي الشريف',2,'ضيافة'],['فندق تيماندرا','بالقرب من البحر الأحمر',3,'ضيافة'],['مجمع تترا','رؤية استثمارية بارزة',4,'تجاري'],['شقق العوالي','تجربة عيش استثنائية',5,'سكني'],['فلل نمار','مساحات للعائلة والحياة',6,'سكني'],['فلل المهدية','المكان المثالي لاستقرار العائلة',7,'سكني'],['أدوار البديعة','مشروع سكني نموذجي',8,'سكني'],['شقق الفيحاء','خصوصية وراحة',9,'سكني'],['عماير الشوقية','حيوية العاصمة المقدسة',10,'سكني'],['صندوق القناديل','وجهة لمشاريع متميزة',11,'استثماري']];
+const ps={1:128,2:256,3:256,4:256,5:256,6:256,7:256,8:256,9:256,10:256,11:256,12:128,13:256,14:384,15:384};
+const cs=[[1,256],[3,256],[2,256],[4,256],[5,128],[6,256]];
+const q=s=>document.querySelector(s),qa=s=>[...document.querySelectorAll(s)];
+q('#serviceGrid').innerHTML=services.map((x,i)=>`<article class="service reveal"><img loading="lazy" src="${B}/images/services/nextImageExportOptimizer/${x[2]}-opt-1200.WEBP" alt="${x[0]}"><div><small>0${i+1}</small><h3>${x[0]}</h3><p>${x[1]}</p></div></article>`).join('');
+q('#projectGrid').innerHTML=projects.map((x,i)=>`<article class="project reveal ${i>5?'hidden':''}" data-i="${i}"><img loading="lazy" src="${B}/images/portfolio/nextImageExportOptimizer/${x[2]}-opt-1200.WEBP" alt="${x[0]}"><div><small>${x[3]}</small><h3>${x[0]}</h3><p>${x[1]}</p></div></article>`).join('');
+q('#partnerGrid').innerHTML=Object.entries(ps).map(([n,s])=>`<img loading="lazy" src="${B}/images/partners/nextImageExportOptimizer/${n}-opt-${s}.WEBP" alt="شريك نجاح ${n}">`).join('');
+q('#companyGrid').innerHTML=cs.map(x=>`<span><img loading="lazy" src="${B}/images/companies/nextImageExportOptimizer/${x[0]}-opt-${x[1]}.WEBP" alt="شركة تابعة"></span>`).join('');
+const menu=q('#menu'),nav=q('#nav');menu.onclick=()=>{nav.classList.toggle('open');menu.setAttribute('aria-expanded',nav.classList.contains('open'))};qa('#nav a').forEach(a=>a.onclick=()=>nav.classList.remove('open'));
+addEventListener('scroll',()=>q('#header').classList.toggle('fixed',scrollY>80),{passive:true});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}}),{threshold:.12});qa('.reveal').forEach(e=>io.observe(e));
+q('#more').onclick=e=>{const hidden=qa('.project.hidden');hidden.forEach(x=>x.classList.remove('hidden'));e.currentTarget.hidden=true;hidden.forEach(x=>io.observe(x))};
+const modal=q('#modal');q('#projectGrid').onclick=e=>{const c=e.target.closest('.project');if(!c)return;const x=projects[+c.dataset.i];q('#modalImg').src=`${B}/images/portfolio/nextImageExportOptimizer/${x[2]}-opt-1200.WEBP`;q('#modalImg').alt=x[0];q('#modalTitle').textContent=x[0];q('#modalText').textContent=x[1];modal.showModal()};q('#close').onclick=()=>modal.close();modal.onclick=e=>{if(e.target===modal)modal.close()};
