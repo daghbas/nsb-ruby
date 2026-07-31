@@ -3,14 +3,16 @@ set -euo pipefail
 
 OLD="https://nsb-ruby.vercel.app"
 PUBLIC_DOMAIN="https://nsb-ruby-mographiccode.vercel.app"
-ASSET_VERSION="20260731-original-content-v1"
+ASSET_VERSION="20260731-framer-motion-v2"
 
 rm -rf public
 mkdir -p public/ar public/assets public/images/main public/images/services public/images/portfolio public/images/partners public/images/companies
 
 cp ar/index.html public/ar/index.html
-cp assets/styles.css assets/app.js public/assets/
-sed -i "s#/assets/styles.css#/assets/styles.css?v=${ASSET_VERSION}#; s#/assets/app.js#/assets/app.js?v=${ASSET_VERSION}#" public/ar/index.html
+cp assets/styles.css assets/app.js assets/framer-enhancements.css assets/framer-enhancements.js public/assets/
+sed -i 's#<link rel="stylesheet" href="/assets/styles.css">#<link rel="stylesheet" href="/assets/styles.css">\n  <link rel="stylesheet" href="/assets/framer-enhancements.css">#' public/ar/index.html
+sed -i 's#<script defer src="/assets/app.js"></script>#<script defer src="/assets/app.js"></script>\n  <script defer src="/assets/framer-enhancements.js"></script>#' public/ar/index.html
+sed -i "s#/assets/styles.css#/assets/styles.css?v=${ASSET_VERSION}#; s#/assets/framer-enhancements.css#/assets/framer-enhancements.css?v=${ASSET_VERSION}#; s#/assets/app.js#/assets/app.js?v=${ASSET_VERSION}#; s#/assets/framer-enhancements.js#/assets/framer-enhancements.js?v=${ASSET_VERSION}#" public/ar/index.html
 
 fetch(){ curl --fail --silent --show-error --location --retry 3 --retry-delay 1 "$1" -o "$2"; }
 
