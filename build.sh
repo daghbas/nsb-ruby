@@ -4,7 +4,6 @@ set -euo pipefail
 OLD="https://nsb-ruby.vercel.app"
 PUBLIC_DOMAIN="https://nsb-ruby-mographiccode.vercel.app"
 
-# Remove every previous generated file and build only from the current repository.
 rm -rf public
 mkdir -p public/ar public/assets \
   public/images/nextImageExportOptimizer \
@@ -14,14 +13,7 @@ mkdir -p public/ar public/assets \
   public/images/companies/nextImageExportOptimizer
 
 cp ar/index.html public/ar/index.html
-cp assets/styles.css assets/styles2.css assets/app.js assets/premium.css assets/premium.js public/assets/
-
-# Convert legacy absolute asset URLs to local Vercel assets.
-sed -i "s#${OLD}##g" public/ar/index.html public/assets/styles.css public/assets/styles2.css public/assets/app.js
-
-# Load the premium art direction after the original CSS and motion after the original JS.
-sed -i 's#<link rel="stylesheet" href="/assets/styles.css" />#<link rel="stylesheet" href="/assets/styles.css" />\n  <link rel="stylesheet" href="/assets/premium.css" />#' public/ar/index.html
-sed -i 's#<script defer src="/assets/app.js"></script>#<script defer src="/assets/app.js"></script>\n  <script defer src="/assets/premium.js"></script>#' public/ar/index.html
+cp assets/styles.css assets/app.js public/assets/
 
 fetch(){ curl --fail --silent --show-error --location --retry 3 --retry-delay 1 "$1" -o "$2"; }
 
@@ -54,7 +46,7 @@ cat > public/index.html <<'HTML'
 HTML
 
 cat > public/404.html <<'HTML'
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>الصفحة غير موجودة | نسب</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;text-align:center;background:#303b42;color:#fff;font-family:Arial,sans-serif}a{color:#d0bb45}</style></head><body><main><h1>404</h1><p>الصفحة المطلوبة غير موجودة.</p><a href="/ar/">العودة إلى الموقع</a></main></body></html>
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>الصفحة غير موجودة | نسب</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;text-align:center;background:#202a30;color:#fff;font-family:Arial,sans-serif}a{color:#d1ba35}</style></head><body><main><h1>404</h1><p>الصفحة المطلوبة غير موجودة.</p><a href="/ar/">العودة إلى الموقع</a></main></body></html>
 HTML
 
 cat > public/robots.txt <<TXT
