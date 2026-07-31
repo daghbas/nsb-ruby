@@ -3,7 +3,7 @@ set -euo pipefail
 
 OLD="https://nsb-ruby.vercel.app"
 PUBLIC_DOMAIN="https://nsb-ruby-mographiccode.vercel.app"
-ASSET_VERSION="20260731-hero-foundation-v2"
+ASSET_VERSION="20260731-foundation-v3"
 
 rm -rf public
 mkdir -p public/ar public/assets \
@@ -14,9 +14,9 @@ mkdir -p public/ar public/assets \
   public/images/companies/nextImageExportOptimizer
 
 cp ar/index.html public/ar/index.html
-cp assets/styles.css assets/app.js assets/hero-about-balance.css public/assets/
-sed -i 's#<link rel="stylesheet" href="/assets/styles.css" />#<link rel="stylesheet" href="/assets/styles.css" />\n  <link rel="stylesheet" href="/assets/hero-about-balance.css" />#' public/ar/index.html
-sed -i "s#/assets/styles.css#/assets/styles.css?v=${ASSET_VERSION}#; s#/assets/hero-about-balance.css#/assets/hero-about-balance.css?v=${ASSET_VERSION}#; s#/assets/app.js#/assets/app.js?v=${ASSET_VERSION}#" public/ar/index.html
+cp assets/styles.css assets/app.js assets/hero-about-balance.css assets/about-balance-v2.css public/assets/
+sed -i 's#<link rel="stylesheet" href="/assets/styles.css" />#<link rel="stylesheet" href="/assets/styles.css" />\n  <link rel="stylesheet" href="/assets/hero-about-balance.css" />\n  <link rel="stylesheet" href="/assets/about-balance-v2.css" />#' public/ar/index.html
+sed -i "s#/assets/styles.css#/assets/styles.css?v=${ASSET_VERSION}#; s#/assets/hero-about-balance.css#/assets/hero-about-balance.css?v=${ASSET_VERSION}#; s#/assets/about-balance-v2.css#/assets/about-balance-v2.css?v=${ASSET_VERSION}#; s#/assets/app.js#/assets/app.js?v=${ASSET_VERSION}#" public/ar/index.html
 
 fetch(){ curl --fail --silent --show-error --location --retry 3 --retry-delay 1 "$1" -o "$2"; }
 
