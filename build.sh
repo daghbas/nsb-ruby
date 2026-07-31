@@ -3,7 +3,7 @@ set -euo pipefail
 
 OLD="https://nsb-ruby.vercel.app"
 PUBLIC_DOMAIN="https://nsb-ruby-mographiccode.vercel.app"
-ASSET_VERSION="20260731-balanced-v1"
+ASSET_VERSION="20260731-hero-foundation-v2"
 
 rm -rf public
 mkdir -p public/ar public/assets \
@@ -14,8 +14,9 @@ mkdir -p public/ar public/assets \
   public/images/companies/nextImageExportOptimizer
 
 cp ar/index.html public/ar/index.html
-cp assets/styles.css assets/app.js public/assets/
-sed -i "s#/assets/styles.css#/assets/styles.css?v=${ASSET_VERSION}#; s#/assets/app.js#/assets/app.js?v=${ASSET_VERSION}#" public/ar/index.html
+cp assets/styles.css assets/app.js assets/hero-about-balance.css public/assets/
+sed -i 's#<link rel="stylesheet" href="/assets/styles.css" />#<link rel="stylesheet" href="/assets/styles.css" />\n  <link rel="stylesheet" href="/assets/hero-about-balance.css" />#' public/ar/index.html
+sed -i "s#/assets/styles.css#/assets/styles.css?v=${ASSET_VERSION}#; s#/assets/hero-about-balance.css#/assets/hero-about-balance.css?v=${ASSET_VERSION}#; s#/assets/app.js#/assets/app.js?v=${ASSET_VERSION}#" public/ar/index.html
 
 fetch(){ curl --fail --silent --show-error --location --retry 3 --retry-delay 1 "$1" -o "$2"; }
 
@@ -48,7 +49,7 @@ cat > public/index.html <<'HTML'
 HTML
 
 cat > public/404.html <<'HTML'
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>الصفحة غير موجودة | نسب</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;text-align:center;background:#202a30;color:#fff;font-family:Arial,sans-serif}a{color:#d1ba35}</style></head><body><main><h1>404</h1><p>الصفحة المطلوبة غير موجودة.</p><a href="/ar/">العودة إلى الموقع</a></main></body></html>
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>الصفحة غير موجودة | نسب</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;text-align:center;background:#202a30;color:#fff;font-family:Arial,sans-serif}a{color:#c9a961}</style></head><body><main><h1>404</h1><p>الصفحة المطلوبة غير موجودة.</p><a href="/ar/">العودة إلى الموقع</a></main></body></html>
 HTML
 
 cat > public/robots.txt <<TXT
