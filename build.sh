@@ -3,6 +3,7 @@ set -euo pipefail
 
 OLD="https://nsb-ruby.vercel.app"
 PUBLIC_DOMAIN="https://nsb-ruby-mographiccode.vercel.app"
+ASSET_VERSION="20260731-balanced-v1"
 
 rm -rf public
 mkdir -p public/ar public/assets \
@@ -14,6 +15,7 @@ mkdir -p public/ar public/assets \
 
 cp ar/index.html public/ar/index.html
 cp assets/styles.css assets/app.js public/assets/
+sed -i "s#/assets/styles.css#/assets/styles.css?v=${ASSET_VERSION}#; s#/assets/app.js#/assets/app.js?v=${ASSET_VERSION}#" public/ar/index.html
 
 fetch(){ curl --fail --silent --show-error --location --retry 3 --retry-delay 1 "$1" -o "$2"; }
 
