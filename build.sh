@@ -3,45 +3,39 @@ set -euo pipefail
 
 OLD="https://nsb-ruby.vercel.app"
 PUBLIC_DOMAIN="https://nsb-ruby-mographiccode.vercel.app"
-ASSET_VERSION="20260731-services-projects-v4"
+ASSET_VERSION="20260731-original-content-v1"
 
 rm -rf public
-mkdir -p public/ar public/assets \
-  public/images/nextImageExportOptimizer \
-  public/images/services/nextImageExportOptimizer \
-  public/images/portfolio/nextImageExportOptimizer \
-  public/images/partners/nextImageExportOptimizer \
-  public/images/companies/nextImageExportOptimizer
+mkdir -p public/ar public/assets public/images/main public/images/services public/images/portfolio public/images/partners public/images/companies
 
 cp ar/index.html public/ar/index.html
-cp assets/styles.css assets/app.js assets/hero-about-balance.css assets/about-balance-v2.css assets/services-projects-v4.css public/assets/
-sed -i 's#<link rel="stylesheet" href="/assets/styles.css" />#<link rel="stylesheet" href="/assets/styles.css" />\n  <link rel="stylesheet" href="/assets/hero-about-balance.css" />\n  <link rel="stylesheet" href="/assets/about-balance-v2.css" />\n  <link rel="stylesheet" href="/assets/services-projects-v4.css" />#' public/ar/index.html
-sed -i "s#/assets/styles.css#/assets/styles.css?v=${ASSET_VERSION}#; s#/assets/hero-about-balance.css#/assets/hero-about-balance.css?v=${ASSET_VERSION}#; s#/assets/about-balance-v2.css#/assets/about-balance-v2.css?v=${ASSET_VERSION}#; s#/assets/services-projects-v4.css#/assets/services-projects-v4.css?v=${ASSET_VERSION}#; s#/assets/app.js#/assets/app.js?v=${ASSET_VERSION}#" public/ar/index.html
+cp assets/styles.css assets/app.js public/assets/
+sed -i "s#/assets/styles.css#/assets/styles.css?v=${ASSET_VERSION}#; s#/assets/app.js#/assets/app.js?v=${ASSET_VERSION}#" public/ar/index.html
 
 fetch(){ curl --fail --silent --show-error --location --retry 3 --retry-delay 1 "$1" -o "$2"; }
 
 for name in hero-opt-1200.WEBP about-opt-1200.WEBP logo-opt-384.WEBP logo-white-opt-384.WEBP; do
-  fetch "$OLD/images/nextImageExportOptimizer/$name" "public/images/nextImageExportOptimizer/$name"
+  fetch "$OLD/images/nextImageExportOptimizer/$name" "public/images/main/$name"
 done
 
-for n in 1 3 4 5; do
-  fetch "$OLD/images/services/nextImageExportOptimizer/${n}-opt-1200.WEBP" "public/images/services/nextImageExportOptimizer/${n}-opt-1200.WEBP"
+for i in $(seq 1 5); do
+  fetch "$OLD/images/services/nextImageExportOptimizer/${i}-opt-1200.WEBP" "public/images/services/${i}.webp"
 done
 
-for n in $(seq 1 11); do
-  fetch "$OLD/images/portfolio/nextImageExportOptimizer/${n}-opt-1200.WEBP" "public/images/portfolio/nextImageExportOptimizer/${n}-opt-1200.WEBP"
+for i in $(seq 1 11); do
+  fetch "$OLD/images/portfolio/nextImageExportOptimizer/${i}-opt-1200.WEBP" "public/images/portfolio/${i}.webp"
 done
 
-partner_sizes=(128 256 256 256 128 256 256 256 256 256 256 128 256 384 384)
+partner_sizes=(128 256 256 256 256 256 256 256 256 256 256 128 256 384 384)
 for i in $(seq 1 15); do
   s=${partner_sizes[$((i-1))]}
-  fetch "$OLD/images/partners/nextImageExportOptimizer/${i}-opt-${s}.WEBP" "public/images/partners/nextImageExportOptimizer/${i}-opt-${s}.WEBP"
+  fetch "$OLD/images/partners/nextImageExportOptimizer/${i}-opt-${s}.WEBP" "public/images/partners/${i}.webp"
 done
 
 company_sizes=(256 256 256 256 128 256)
 for i in $(seq 1 6); do
   s=${company_sizes[$((i-1))]}
-  fetch "$OLD/images/companies/nextImageExportOptimizer/${i}-opt-${s}.WEBP" "public/images/companies/nextImageExportOptimizer/${i}-opt-${s}.WEBP"
+  fetch "$OLD/images/companies/nextImageExportOptimizer/${i}-opt-${s}.WEBP" "public/images/companies/${i}.webp"
 done
 
 cat > public/index.html <<'HTML'
@@ -49,7 +43,7 @@ cat > public/index.html <<'HTML'
 HTML
 
 cat > public/404.html <<'HTML'
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>الصفحة غير موجودة | نسب</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;text-align:center;background:#202a30;color:#fff;font-family:Arial,sans-serif}a{color:#c9a961}</style></head><body><main><h1>404</h1><p>الصفحة المطلوبة غير موجودة.</p><a href="/ar/">العودة إلى الموقع</a></main></body></html>
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>الصفحة غير موجودة | نسب</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;text-align:center;background:#1e272d;color:#fff;font-family:Arial,sans-serif}a{color:#c9a961}</style></head><body><main><h1>404</h1><p>الصفحة المطلوبة غير موجودة.</p><a href="/ar/">العودة إلى الموقع</a></main></body></html>
 HTML
 
 cat > public/robots.txt <<TXT
